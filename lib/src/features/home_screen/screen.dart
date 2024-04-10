@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/widgets/app.dart';
 import 'test_screen1.dart';
 import '../editor_screen/screen.dart';
+import '../schedule_screen/screen.dart';
 
 class PlaceholderScreen extends StatefulWidget {
   const PlaceholderScreen({super.key});
@@ -20,9 +21,7 @@ class _PlaceholderScreenState extends State<PlaceholderScreen> {
     ColorBoxPage(
       key: PageStorageKey<String>('secondPage'),
     ),
-    ColorBoxPage(
-      key: PageStorageKey<String>('thirdPage'),
-    ),
+    ScheduleScreen(),
     ColorBoxPage(
       key: PageStorageKey<String>('fourthPage'),
     ),
@@ -47,28 +46,23 @@ class _PlaceholderScreenState extends State<PlaceholderScreen> {
             currentIndex = index;
           });
         },
-
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.newspaper_outlined),
             label: 'События',
           ),
-
           NavigationDestination(
             icon: Icon(Icons.alarm),
             label: 'Уведомления',
           ),
-
           NavigationDestination(
             icon: Icon(Icons.timer_outlined),
             label: 'Расписание',
           ),
-
           NavigationDestination(
             icon: Icon(Icons.map_outlined),
             label: 'Карта',
           ),
-
           NavigationDestination(
             icon: Icon(Icons.menu),
             label: 'Другое',

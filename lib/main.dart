@@ -9,7 +9,7 @@ import 'src/features/editor_screen/screen.dart';
 void main() => runZonedGuarded(
       initializeApp,
       (error, stack) {
-        print('runZonedGuarded: Caught error: $error');
+        print('runZonedGuarded: Caught error: $error, \n$stack');
       },
     );
 

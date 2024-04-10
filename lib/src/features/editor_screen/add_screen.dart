@@ -27,7 +27,6 @@ typedef ControllerContainer = ({
   TextEditingController endTimeController
 });
 
-int currentDay = 0;
 
 class AddLessonsScreen extends StatefulWidget {
   const AddLessonsScreen({super.key});
@@ -37,6 +36,7 @@ class AddLessonsScreen extends StatefulWidget {
 }
 
 class _AddLessonsScreenState extends State<AddLessonsScreen> {
+  int currentDay = 0;
   late List<ControllerContainer> controllerList = List.generate(
     maxWidgets,
     (index) => (
@@ -62,7 +62,6 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
     listenData();
   }
 
-
   void deleteElement() {
     maxWidgets--;
     controllerList.removeLast();
@@ -84,6 +83,10 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
         ..save(
           key: '${dayOfWeek[currentDay]}_${i}_endTime',
           value: controllerList[i].endTimeController.text,
+        )
+        ..save(
+          key: '${dayOfWeek[currentDay]}_maxLessons',
+          value: maxWidgets,
         );
     }
   }
@@ -118,7 +121,6 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
   void debounceSaveText() {
     debouncer?.cancel();
     debouncer = Timer(const Duration(milliseconds: 500), (saveAllText));
-
   }
 
   @override
@@ -174,6 +176,7 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
                 ),
                 onPressed: () {
                   setState(() {
+                    saveAllText();
                     if (currentDay == 5) {
                       showDialog<void>(
                         context: context,
