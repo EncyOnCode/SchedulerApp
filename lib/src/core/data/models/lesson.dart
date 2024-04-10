@@ -2,6 +2,17 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 base class Lesson {
+
+  factory Lesson.fromJson(Map<String, Object?> map) {
+    return Lesson(
+      name: map['name']! as String,
+      teachers: (map['teachers']! as List).map((e) => e as String).toList(),
+      startTime: Duration(seconds: map['startTime']! as int),
+      endTime: Duration(seconds: map['endTime']! as int),
+      notes: map['notes'] as String?,
+      room: map['room'] as String?,
+    );
+  }
   const Lesson({
     required this.name,
     this.teachers = const [],
@@ -64,16 +75,5 @@ base class Lesson {
       'notes': notes,
       'room': room,
     };
-  }
-
-  factory Lesson.fromJson(Map<String, Object?> map) {
-    return Lesson(
-      name: map['name'] as String,
-      teachers: (map['teachers'] as List).map((e) => e as String).toList(),
-      startTime: Duration(seconds: map['startTime'] as int),
-      endTime: Duration(seconds: map['endTime'] as int),
-      notes: map['notes'] as String?,
-      room: map['room'] as String?,
-    );
   }
 }

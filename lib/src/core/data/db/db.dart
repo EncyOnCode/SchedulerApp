@@ -35,6 +35,7 @@ final class DatabaseSharePreferences implements IDatabase {
 
   @override
   FutureOr<bool> save<T>({required String key, required T value}) {
+    print('key: $key value: $value');
     return switch (value) {
       int() => _prefs.setInt(key, value),
       double() => _prefs.setDouble(key, value),
@@ -42,6 +43,7 @@ final class DatabaseSharePreferences implements IDatabase {
       String() => _prefs.setString(key, value),
       List<String>() => _prefs.setStringList(key, value),
       _ => throw Exception('Type not supported'),
+
     };
   }
 }

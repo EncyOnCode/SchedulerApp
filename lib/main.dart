@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'src/core/data/db/db.dart';
 import 'src/core/widgets/app.dart';
+import 'src/features/home_screen/screen.dart';
+import 'src/features/editor_screen/screen.dart';
 
 void main() => runZonedGuarded(
       initializeApp,
@@ -22,7 +24,12 @@ Future<void> initializeApp() async {
 
   final db = await rootInitialization();
 
-  runApp(SandBoxApp(db: db));
+  //runApp(SandBoxApp(db: db));
+  runApp(
+    MaterialApp(
+      home: SandBoxApp(db: db),
+    ),
+  );
 }
 
 Future<IDatabase> rootInitialization() async {
