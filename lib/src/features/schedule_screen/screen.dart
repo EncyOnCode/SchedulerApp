@@ -51,9 +51,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       data.add(
           (lessonName: lessonName, startTime: startTime, endTime: endTime));
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -101,14 +99,34 @@ class LessonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(data.lessonName),
-        const SizedBox(width: 5,),
-        Text(data.startTime),
-        const SizedBox(width: 5,),
-        Text(data.endTime),
-      ],
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              data.lessonName,
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              'Начало: ${data.startTime}',
+              style: const TextStyle(color: Colors.grey),
+            ),
+            Text(
+              'Окончание: ${data.endTime}',
+              style: const TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
