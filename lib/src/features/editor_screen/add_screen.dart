@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../dependencies/scope.dart';
+import '../home_screen/screen.dart';
 
 OutlineInputBorder borderStyled = const OutlineInputBorder(
   borderRadius: BorderRadius.all(
@@ -203,11 +204,10 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF008000),
                 ),
-                onPressed: () {
-                  setState(() {
+                onPressed: () async {
                     saveAllText();
                     if (currentDay == 5) {
-                      showDialog<void>(
+                      await showDialog<void>(
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Последний день недели'),
@@ -217,16 +217,25 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
+
                               child: const Text('Понял'),
                             ),
                           ],
                         ),
                       );
+                      if (context.mounted) {
+                        Navigator.popUntil(context, (route) => true);
+                        await Navigator.popAndPushNamed(context, '/homeScreen');
+
+                      }
+
                     } else {
-                      maxWidgets = 1;
-                      currentDay += 1;
+                      setState(() {
+                        maxWidgets = 1;
+                        currentDay += 1;
+                      });
+
                     }
-                  });
                 },
                 child: const Text('Закончил'),
               ),

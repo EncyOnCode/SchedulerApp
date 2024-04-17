@@ -94,7 +94,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 );
               },
               child: const Text('Неделя'),
-            )
+            ),
           ],
         ),
       ),
