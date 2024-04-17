@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../dependencies/scope.dart';
 import '../editor_screen/add_screen.dart';
+import 'weekly_screen.dart';
 
 const List<String> listOfValues = <String>[
   'Понедельник',
@@ -13,7 +14,11 @@ const List<String> listOfValues = <String>[
   'Суббота',
 ];
 
-typedef LessonData = ({String lessonName, String startTime, String endTime});
+typedef DailyLessonData = ({
+  String lessonName,
+  String startTime,
+  String endTime
+});
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
@@ -24,7 +29,7 @@ class ScheduleScreen extends StatefulWidget {
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
   String dropdownValue = listOfValues.first;
-  List<LessonData> data = [];
+  List<DailyLessonData> data = [];
 
   @override
   void initState() {
@@ -49,7 +54,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           await db.get(key: '${dayOfWeek[index]}_${i}_endTime') ?? '';
 
       data.add(
-          (lessonName: lessonName, startTime: startTime, endTime: endTime));
+        (lessonName: lessonName, startTime: startTime, endTime: endTime),
+      );
     }
     setState(() {});
   }
@@ -63,6 +69,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             DropdownButton<String>(
               value: dropdownValue,
               onChanged: (String? value) {
+                // Получаем индекс выбранного айтема в DropdownMenu
                 setState(() {
                   dropdownValue = value!;
                   final index = listOfValues.indexOf(value);
@@ -77,6 +84,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               }).toList(),
               dropdownColor: Colors.cyan,
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const WeeklyScheduleScreen(),
+                  ),
+                );
+              },
+              child: const Text('Неделя'),
+            )
           ],
         ),
       ),
@@ -95,7 +113,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 class LessonItem extends StatelessWidget {
   const LessonItem({super.key, required this.data});
 
-  final LessonData data;
+  final DailyLessonData data;
 
   @override
   Widget build(BuildContext context) {

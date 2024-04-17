@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import '../dependencies/scope.dart';
-import '../lessons/state_controller.dart';
 
 OutlineInputBorder borderStyled = const OutlineInputBorder(
   borderRadius: BorderRadius.all(
@@ -26,7 +23,6 @@ typedef ControllerContainer = ({
   TextEditingController startTimeController,
   TextEditingController endTimeController
 });
-
 
 class AddLessonsScreen extends StatefulWidget {
   const AddLessonsScreen({super.key});
@@ -71,23 +67,31 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
   void saveAllText() {
     final db = Dependencies.dbOf(context);
     for (var i = 0; i < maxWidgets; ++i) {
-      db
-        ..save(
-          key: '${dayOfWeek[currentDay]}_$i',
-          value: controllerList[i].lessonNameController.text,
-        )
-        ..save(
-          key: '${dayOfWeek[currentDay]}_${i}_startTime',
-          value: controllerList[i].startTimeController.text,
-        )
-        ..save(
-          key: '${dayOfWeek[currentDay]}_${i}_endTime',
-          value: controllerList[i].endTimeController.text,
-        )
-        ..save(
-          key: '${dayOfWeek[currentDay]}_maxLessons',
-          value: maxWidgets,
-        );
+      if (maxWidgets == 1) {
+        if (controllerList[i].lessonNameController.text == '' &&
+            controllerList[i].startTimeController.text == '' &&
+            controllerList[i].endTimeController.text == '') {
+          db.save(key: '${dayOfWeek[currentDay]}_$i', value: 'Выходной');
+        }
+      } else {
+        db
+          ..save(
+            key: '${dayOfWeek[currentDay]}_$i',
+            value: controllerList[i].lessonNameController.text,
+          )
+          ..save(
+            key: '${dayOfWeek[currentDay]}_${i}_startTime',
+            value: controllerList[i].startTimeController.text,
+          )
+          ..save(
+            key: '${dayOfWeek[currentDay]}_${i}_endTime',
+            value: controllerList[i].endTimeController.text,
+          )
+          ..save(
+            key: '${dayOfWeek[currentDay]}_maxLessons',
+            value: maxWidgets,
+          );
+      }
     }
   }
 
@@ -161,7 +165,32 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  setState(deleteElement);
+                  if (maxWidgets == 1) {
+                    showDialog<void>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Ошибка удаления'),
+                        content: const Text(
+                          'Удаление единственного элемента с экрана '
+                          'невозможно, если вы хотите сделать выходной день, '
+                          'просто оставьте поля ввода пустыми.',
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            child: const Text('Понял'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    setState(deleteElement);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFF0000),

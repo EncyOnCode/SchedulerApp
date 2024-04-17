@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/widgets/app.dart';
 import 'test_screen1.dart';
 import '../editor_screen/screen.dart';
 import '../schedule_screen/screen.dart';
