@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../dependencies/scope.dart';
-import '../home_screen/screen.dart';
 
 OutlineInputBorder borderStyled = const OutlineInputBorder(
   borderRadius: BorderRadius.all(
@@ -213,7 +212,7 @@ class _AddLessonsScreenState extends State<AddLessonsScreen> {
                           title: const Text('Последний день недели'),
                           content: const Text(
                               'Это последний день недели, после его редактирования '
-                              'приложение будет пиздить ваши данные'),
+                              'приложение составит для вас расписание'),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
